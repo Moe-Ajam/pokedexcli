@@ -1,11 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"log"
-	"net/http"
 )
 
 type Result struct {
@@ -20,26 +17,19 @@ type Location struct {
 	Results  []Result `json:"results"`
 }
 
-func callbackMap() {
-	res, err := http.Get("https://pokeapi.co/api/v2/location-area/?offset=20&limit=20")
+func callbackMap(cfg *config) error {
+	pokeapiClient := cfg.pokeapiClient
+	resp, err := pokeapiClient.ListLocationAreas(cfg.nextLoactionAreaUrl)
+
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Something went wrong")
 	}
 
-	body, err := io.ReadAll(res.Body)
-	res.Body.Close()
-	if res.StatusCode > 299 {
-		log.Fatalf("Request failed with status code: %d\nbody: %v", res.StatusCode, body)
+	fmt.Print("The location names:\n")
+	for _, area := range resp.Results {
+		fmt.Printf(" - %s\n", area.Name)
 	}
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	location := Location{}
-
-	err = json.Unmarshal(body, &location)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(location)
+	cfg.nextLoactionAreaUrl = resp.Next
+	cfg.prevLocationAreaUrl = resp.Previous
+	return nil
 }

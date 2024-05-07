@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func startRepl() {
+func startRepl(cfg *config) {
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
@@ -32,14 +32,14 @@ func startRepl() {
 			continue
 		}
 
-		selectedCommand.callback()
+		selectedCommand.callback(cfg)
 	}
 }
 
 type cliCommand struct {
 	name        string
 	description string
-	callback    func()
+	callback    func(*config) error
 }
 
 func getCommands() map[string]cliCommand {
