@@ -39,7 +39,7 @@ func callbackMap(cfg *config) error {
 func callbackMapb(cfg *config) error {
 	pokeapiClient := cfg.pokeapiClient
 	if cfg.prevLocationAreaUrl == nil {
-		fmt.Println("No more pages to go back to! try to use the `help` command for more information")
+		fmt.Println("No more pages to go back to! try to use the `help` command for more informatio")
 		return nil
 	}
 	resp, err := pokeapiClient.PrevLocationAreas(cfg.prevLocationAreaUrl)
