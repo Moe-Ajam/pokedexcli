@@ -33,3 +33,20 @@ func callbackMap(cfg *config) error {
 	cfg.prevLocationAreaUrl = resp.Previous
 	return nil
 }
+
+func callbackMapb(cfg *config) error {
+	pokeapiClient := cfg.pokeapiClient
+	resp, err := pokeapiClient.PrevLocationAreas(cfg.prevLocationAreaUrl)
+
+	if err != nil {
+		log.Fatal("Something went wrong")
+	}
+
+	fmt.Print("The location names:\n")
+	for _, area := range resp.Results {
+		fmt.Printf(" - %s\n", area.Name)
+	}
+	cfg.nextLoactionAreaUrl = resp.Next
+	cfg.prevLocationAreaUrl = resp.Previous
+	return nil
+}

@@ -54,6 +54,11 @@ func getCommands() map[string]cliCommand {
 			description: "Show the next 20 items of the Pokemon deck",
 			callback:    callbackMap,
 		},
+		"mapb": {
+			name:        "mapb",
+			description: "Show the previous 20 items of the Pokemon deck",
+			callback:    callbackMapb,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Turns off the Pokedex",
