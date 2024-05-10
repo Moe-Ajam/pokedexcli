@@ -24,8 +24,10 @@ func callbackMap(cfg *config) error {
 	if err != nil {
 		log.Fatal("Something went wrong")
 	}
+	cfg.page++
 
 	fmt.Print("The location names:\n")
+	fmt.Println("Page:", cfg.page)
 	for _, area := range resp.Results {
 		fmt.Printf(" - %s\n", area.Name)
 	}
@@ -36,13 +38,20 @@ func callbackMap(cfg *config) error {
 
 func callbackMapb(cfg *config) error {
 	pokeapiClient := cfg.pokeapiClient
+	if cfg.prevLocationAreaUrl == nil {
+		fmt.Println("No more pages to go back to! try to use the `help` command for more information")
+		return nil
+	}
 	resp, err := pokeapiClient.PrevLocationAreas(cfg.prevLocationAreaUrl)
 
 	if err != nil {
 		log.Fatal("Something went wrong")
 	}
 
+	cfg.page--
+
 	fmt.Print("The location names:\n")
+	fmt.Println("Page:", cfg.page)
 	for _, area := range resp.Results {
 		fmt.Printf(" - %s\n", area.Name)
 	}

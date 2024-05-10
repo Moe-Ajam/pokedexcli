@@ -47,10 +47,6 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 }
 
 func (c *Client) PrevLocationAreas(pageUrl *string) (LocationAreasResp, error) {
-	if pageUrl == nil {
-		return LocationAreasResp{}, fmt.Errorf("No more space to go backwards!")
-	}
-
 	req, err := http.NewRequest("GET", *pageUrl, nil)
 	if err != nil {
 		return LocationAreasResp{}, err
