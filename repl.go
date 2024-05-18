@@ -10,8 +10,10 @@ import (
 func startRepl(cfg *config) {
 
 	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Println("Welcome to Pokedex!")
+	fmt.Println("Type `help` to get started")
 	for {
-		fmt.Print("> ")
+		fmt.Print("Pokedex > ")
 		scanner.Scan()
 		text := scanner.Text()
 
@@ -32,14 +34,20 @@ func startRepl(cfg *config) {
 			continue
 		}
 
-		selectedCommand.callback(cfg)
+		if len(cleaned) < 2 {
+			selectedCommand.callback(cfg, "")
+			continue
+		}
+
+		param := cleaned[1]
+		selectedCommand.callback(cfg, param)
 	}
 }
 
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, string) error
 }
 
 func getCommands() map[string]cliCommand {
@@ -51,13 +59,18 @@ func getCommands() map[string]cliCommand {
 		},
 		"map": {
 			name:        "map",
-			description: "Show the next 20 items of the Pokemon deck",
+			description: "Show the next 20 areas of the Pokemon world",
 			callback:    callbackMap,
 		},
 		"mapb": {
 			name:        "mapb",
-			description: "Show the previous 20 items of the Pokemon deck",
+			description: "Show the previous 20 areas of the Pokemon world",
 			callback:    callbackMapb,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Show the Pokemons living in the mentioned area",
+			callback:    callbackExplore,
 		},
 		"exit": {
 			name:        "exit",

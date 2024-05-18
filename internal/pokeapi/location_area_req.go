@@ -27,7 +27,6 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 		return locationAreasResp, nil
 	}
 
-	fmt.Println("chache miss")
 	req, err := http.NewRequest("GET", fullUrl, nil)
 	if err != nil {
 		return LocationAreasResp{}, err

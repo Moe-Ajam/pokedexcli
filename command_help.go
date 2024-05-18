@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func callbackHelp(cfg *config) error {
+func callbackHelp(cfg *config, param string) error {
 	availableCommands := getCommands()
 	fmt.Println("Welcome to the Pokedex menu!")
 	fmt.Println("Here are the available commands:")

@@ -17,7 +17,7 @@ type Location struct {
 	Results  []Result `json:"results"`
 }
 
-func callbackMap(cfg *config) error {
+func callbackMap(cfg *config, param string) error {
 	pokeapiClient := cfg.pokeapiClient
 	resp, err := pokeapiClient.ListLocationAreas(cfg.nextLoactionAreaUrl)
 
@@ -26,8 +26,8 @@ func callbackMap(cfg *config) error {
 	}
 	cfg.page++
 
-	fmt.Print("The location names:\n")
 	fmt.Println("Page:", cfg.page)
+	fmt.Print("Here's the available locations:\n")
 	for _, area := range resp.Results {
 		fmt.Printf(" - %s\n", area.Name)
 	}
@@ -36,7 +36,7 @@ func callbackMap(cfg *config) error {
 	return nil
 }
 
-func callbackMapb(cfg *config) error {
+func callbackMapb(cfg *config, param string) error {
 	pokeapiClient := cfg.pokeapiClient
 	if cfg.prevLocationAreaUrl == nil {
 		fmt.Println("No more pages to go back to! try to use the `help` command for more informatio")
@@ -50,8 +50,8 @@ func callbackMapb(cfg *config) error {
 
 	cfg.page--
 
-	fmt.Print("The location names:\n")
 	fmt.Println("Page:", cfg.page)
+	fmt.Print("Here's the available locations:\n")
 	for _, area := range resp.Results {
 		fmt.Printf(" - %s\n", area.Name)
 	}
