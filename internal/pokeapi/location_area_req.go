@@ -16,6 +16,18 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 		fullUrl = *pageUrl
 	}
 
+	data, ok := c.cache.Get(fullUrl)
+
+	if ok {
+		locationAreasResp := LocationAreasResp{}
+		err := json.Unmarshal(data, &locationAreasResp)
+		if err != nil {
+			return LocationAreasResp{}, err
+		}
+		return locationAreasResp, nil
+	}
+
+	fmt.Println("chache miss")
 	req, err := http.NewRequest("GET", fullUrl, nil)
 	if err != nil {
 		return LocationAreasResp{}, err
@@ -43,11 +55,28 @@ func (c *Client) ListLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 		return LocationAreasResp{}, err
 	}
 
+	c.cache.Add(fullUrl, body)
+
 	return locationAreasResp, nil
 }
 
 func (c *Client) PrevLocationAreas(pageUrl *string) (LocationAreasResp, error) {
+	data, ok := c.cache.Get(*pageUrl)
+
+	if ok {
+		locationAreasResp := LocationAreasResp{}
+
+		err := json.Unmarshal(data, &locationAreasResp)
+		if err != nil {
+			return LocationAreasResp{}, err
+		}
+
+		return locationAreasResp, nil
+
+	}
+
 	req, err := http.NewRequest("GET", *pageUrl, nil)
+
 	if err != nil {
 		return LocationAreasResp{}, err
 	}
@@ -74,6 +103,7 @@ func (c *Client) PrevLocationAreas(pageUrl *string) (LocationAreasResp, error) {
 		return LocationAreasResp{}, err
 	}
 
+	c.cache.Add(*pageUrl, body)
 	return locationAreasResp, nil
 
 }
