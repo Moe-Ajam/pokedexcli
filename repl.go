@@ -72,6 +72,11 @@ func getCommands() map[string]cliCommand {
 			description: "Show the Pokemons living in the mentioned area",
 			callback:    callbackExplore,
 		},
+		"catch": {
+			name:        "catch",
+			description: "Catch a Pokemon! be careful though, the higher experince the Pokemon has, the harder it will be to catch it",
+			callback:    callbackCatch,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Turns off the Pokedex",
