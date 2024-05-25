@@ -13,6 +13,8 @@ type config struct {
 	page                int
 }
 
+var coughtPokemon = make(map[string]pokeapi.PokemonInformation)
+
 func main() {
 	cfg := config{
 		pokeapiClient: pokeapi.NewClient(time.Hour),

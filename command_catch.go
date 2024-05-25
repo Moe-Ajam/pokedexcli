@@ -11,14 +11,22 @@ func callbackCatch(cfg *config, param string) error {
 		return err
 	}
 
-	fmt.Println(param, "has an experience level of", resp.BaseExperience)
-	fmt.Println("Catching Pokemon...")
-	if catchPokemon(resp.BaseExperience) {
-		fmt.Println("Pokemon cought!")
+	_, isCought := coughtPokemon[param]
+
+	if isCought {
+		fmt.Println(param, "is already in your collection!")
 		return nil
 	}
 
-	fmt.Println("Missed :(")
+	fmt.Println("Throwing ball at ", param, "...")
+
+	if catchPokemon(resp.BaseExperience) {
+		fmt.Println(param, "cought!")
+		coughtPokemon[param] = resp
+		return nil
+	}
+
+	fmt.Println(param, "escaped!")
 
 	return nil
 }
